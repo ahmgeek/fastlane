@@ -118,7 +118,10 @@ module Spaceship
       #    }
       #  ]
       def pricing_intervals
-        @pricing_intervals ||= raw_data["subscriptions"].map do |interval|
+        prices ||= raw_data["subscriptions"]
+        return [] if prices.nil?
+
+        @pricing_intervals = prices.map do |interval|
           {
             tier: interval["value"]["tierStem"].to_i,
             begin_date: interval["value"]["priceTierEffectiveDate"],
