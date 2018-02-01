@@ -276,19 +276,9 @@ module Spaceship
     # /tmp/spaceship[time]_[pid].log by default
     def logger
       unless @logger
-        if ENV["VERBOSE"]
-          @logger = Logger.new(STDOUT)
-        else
-          # Log to file by default
-          path = "/tmp/spaceship#{Time.now.to_i}_#{Process.pid}.log"
-          @logger = Logger.new(path)
-        end
-
-        @logger.formatter = proc do |severity, datetime, progname, msg|
-          "[#{datetime.strftime('%H:%M:%S')}]: #{msg}\n"
-        end
+        @logger = Logger.new("/dev/null")
+        @logger.level = Logger::FATAL
       end
-
       @logger
     end
 
